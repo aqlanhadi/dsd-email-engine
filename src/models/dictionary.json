@@ -1,0 +1,158 @@
+{
+   "0":{
+      "0":0,
+      "1":{
+         "Every week":4,
+         "Twice a month":3,
+         "Once a month":2,
+         "Once in two months or longer":1
+      },
+      "2":0,
+      "3":{
+         "Jaya Grocer / Village Grocer / Ben's or equivalent":4,
+         "Giant / Tesco / Aeon Big or equivalent":3,
+         "Mydin / Local convenient stores":2,
+         "anywhere possible, as long as its convenient":1
+      },
+      "4":{
+         "Yes":4,
+         "No":1,
+         "On specific items":3
+      },
+      "5":{
+         "1 - 2 people":0,
+         "3 - 5 people":0,
+         "6 and above":0
+      }
+   },
+   "1":{
+      "0":{
+         "Everyday":1,
+         "Almost everyday":2,
+         "Once in a while":3,
+         "Rarely":4,
+         "Never":5
+      },
+      "1":{
+         "Own Car":4,
+         "Grab / Taxi":3,
+         "LRT":2,
+         "Walk":1
+      },
+      "2":{
+         "Yes":1,
+         "No":0
+      },
+      "3":{
+         "less than RM10":1,
+         "RM10-50":2,
+         "more than RM50":3,
+         "never calculated":4
+      }
+   },
+   "2":{
+      "0":{
+         "Mamak / Hawker / Stalls":4,
+         "Fast-food chains":5,
+         "Specialty restaurants":2,
+         "Home (Foodpanda, GrabFood)":3,
+         "I rarely eat out":1
+      },
+      "1":{
+         "Once a week":1,
+         "2-3 times":2,
+         "4-7 times":3,
+         "More than 7 times":4
+      },
+      "2":0
+   },
+   "3":{
+      "0":0,
+      "1":0,
+      "2":0,
+      "3":{
+         "Designer boutiques":5,
+         "Local boutiques":4,
+         "Outlets; e.g. Uniqlo":3,
+         "Department stores; e.g. Sogo":2,
+         "Anywhere, I don't have any preferences":1
+      },
+      "4":{
+         "More than twice a week":5,
+         "Once a week":4,
+         "Once every two weeks":3,
+         "Once a month":2,
+         "Rarely":1
+      },
+      "5":0
+   },
+   "4":{
+      "0":{
+         "I don't have enough to save":0,
+         "Quarter of my income":0,
+         "Half of my income":0,
+         "More than half of my income":0,
+         "I'm not sure":0
+      },
+      "1":{
+         "Yes":0,
+         "No":0
+      },
+      "2":{
+         "18 or younger":0,
+         "19 - 24":0,
+         "25 - 34":0,
+         "35 - 44":0,
+         "45 - 54":0,
+         "55 - 64":0,
+         "65 or older":0
+      },
+      "3":{
+         "RM2,000 or less":0,
+         "RM2,001 - RM4,000":0,
+         "RM4,001 - RM6,000":0,
+         "RM6,001 - RM8,000":0,
+         "More than RM8,000":0,
+         "I prefer not to answer":0
+      },
+      "4":{
+         "Employed full-time":0,
+         "Employed part-time":0,
+         "Self-employed":0,
+         "Unemployed":0,
+         "Not looking for work":0,
+         "Gig-worker":0,
+         "Retired":0,
+         "Student":0,
+         "I prefer not to answer":0
+      },
+      "5":{
+         "Less than High School":0,
+         "High School":0,
+         "Some College / University":0,
+         "College Diploma / Certificate":0,
+         "Undergraduate Degree":0,
+         "Masters / Graduate Degree":0,
+         "Doctorate":0,
+         "I prefer not to answer":0
+      },
+      "6":{
+         "Yes":0,
+         "No":0
+      },
+      "7":{
+         "Housing loan":0,
+         "Car loan":0,
+         "Educational loan":0,
+         "Personal loan":0
+      },
+      "8":{
+         "Lower than 20%":0,
+         "20%-40%":0,
+         "More than 40%":0,
+         "I prefer not to answer":0
+      },
+      "9":0,
+      "10":0
+   }
+}
