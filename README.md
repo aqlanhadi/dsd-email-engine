@@ -8,7 +8,7 @@ Maybank's Digital Skills Development email processing application.
         * [/] Server setup & configuration
             * [/] Express servers
         * [/] Complete flow test, hook to processors
-            * [/] typeform to node.js input validations <!> requires test configs
+            * [/] typeform to node.js input validations ⚠️ requires test configs
     * [/] Analyze request payload structure
         * [/] Clean up req
     * [/] Setup Test ENV
@@ -22,8 +22,8 @@ Maybank's Digital Skills Development email processing application.
             * [] calculated scores (see copywriting)
         * [/] Build UI
             * [/] Base skeleton
-            * [] Charts
-                * [] ISSUE -> imgs cannot be sent in HTML email
+            * 🔨 [] Charts
+                * [] ⚠️ ISSUE -> imgs cannot be sent in HTML email
                     Possible Routes:
                     - Base64 Encodings for images
                     - As attachments
@@ -46,4 +46,4 @@ Maybank's Digital Skills Development email processing application.
         * [/] Mailtrap setup
             * [/] test route from /hook to mailtrap
             * [/] test route from /hook to mailbox
-            * >> [] spam score <4
+            * 🔧 [] spam score <4
