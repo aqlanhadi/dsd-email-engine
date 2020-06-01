@@ -14,6 +14,7 @@ readFile(file, 'utf8', (err, content) => {
         //generateReportFrom(response)
         var report = new Report(response)
         report.prepReport()
+        // UGLY IMPLEMENTATION 👇🏼 pending => change to async await // promise based functions
         setTimeout(() => {
             report.sendReport('aqlanhadi@gmail.com')
         }, 10000)
