@@ -22,8 +22,8 @@ Maybank's Digital Skills Development email processing application.
             * [] calculated scores (see copywriting)
         * [/] Build UI
             * [/] Base skeleton
-            * >> [] Charts
-                * >> [] ISSUE -> imgs cannot be sent in HTML email
+            * [] Charts
+                * [] ISSUE -> imgs cannot be sent in HTML email
                     Possible Routes:
                     - Base64 Encodings for images
                     - As attachments
@@ -31,14 +31,14 @@ Maybank's Digital Skills Development email processing application.
                         - Costly
                         - Inefficient for every response, uploads images to cloud
                             - Takes space
-            * >> [] Accessibility for all email clients/ Gmail, Apple Mail Client
+            * [] Accessibility for all email clients/ Gmail, Apple Mail Client
             * [] Beautify
     * [] Demographic Data Pool
     * [] Copywriting
         * [] Financial Profile
         * [] Calculations
             * [] DIR
-            * [/] Expenses (pending: pie charts)
+            * [] Expenses (pending: pie charts)
             * [] Demographic Averages
         * [] Tips based on financial profile
     * [/] Configure email route
