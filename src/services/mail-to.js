@@ -1,6 +1,8 @@
 import pkg from 'nodemailer'
 const { createTransport } = pkg
 
+
+
 const MAIL_FROM = 'duitforall@gmail.com'
 // const MAIL_FROM_PASS = 'futureready2020'
 
@@ -13,15 +15,23 @@ var transporter = createTransport({
   }
 });
 
+/**
+ * 
+ * @param {String} mail email adress of which the email will be sent to.
+ * @param {JSON} metadata email metadata
+ * @param {HTML} body html body of the email
+ */
 export function send(mail, metadata, body) {
   console.log('Sending email to ', mail)
   console.log('Email Subject: ', metadata.subject )
   //console.log('Email Body: ', body )
 
+
   var mailOptions = {
     from: 'HalDuit <hello@halduit.com>',
     to: mail,
     subject: metadata.subject,
+    text: 'View online version',
     html: `${body}`
   }
 

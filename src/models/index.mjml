@@ -1,0 +1,50 @@
+<mjml>
+    <mj-head>
+        <mj-attributes>
+            <mj-class 
+                name="header-text" 
+                color="rgb(238,113,61)" 
+                font-size="20px" />
+            <mj-class
+                name="title-text"
+                font-size="22px" />
+            <mj-class
+                name="body-text"
+                font-size="18px" />
+        </mj-attributes>
+    </mj-head>
+  <mj-body background-color="white">
+    <mj-section>
+      <mj-column>
+        <mj-image 
+            width="60px" 
+            src="./../assets/img/logo_1.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <!--Header-->
+    <mj-section>
+        <mj-column>
+            <mj-text mj-class="header-text">Hi ${name}</mj-text>
+            <mj-text mj-class="body-text">You are a ${profile}</mj-text>
+            <mj-text mj-class="body-text">${profile_desc}</mj-text>
+        </mj-column>
+    </mj-section>
+    <mj-section>
+        <mj-column>
+        <mj-divider />
+            <mj-text mj-class="title-text">Your results</mj-text>
+        </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text>Charts</mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text>Transport: ${spend_ratio_transport}</mj-text>
+        <mj-text>Eating Out: ${spend_eat_out}</mj-text>
+        <mj-text>Hobbies: ${spend_hobbies}</mj-text>
+        <mj-text>Clothes: ${spend_clothes}</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -1,7 +1,9 @@
 import { readFile, writeFile } from 'fs'
-import { extractResponses, extractResponseBody } from './lib.js'
+import Charts from 'chart.js'
+import { extractResponses, extractResponseBody, base64_encode } from './lib.js'
 import { send } from './mail-to.js'
 import heml from 'heml'
+import mjml2html from 'mjml'
 
 const DEFINITION_FILE_PATH = "src/models/dictionary.json"
 const SCORE_DEFINITION = {}
@@ -13,6 +15,7 @@ export class Report {
     #responded_values = {}
     #definition = {}
     #demographic = {}
+    #name = ''
 
     #email_body = ''
     #email_metadata = ''
@@ -23,7 +26,10 @@ export class Report {
     }
 
     prepReport() {
+        this.hemlEngine()
+    }
 
+    hemlEngine() {
         const op = {
             validate: 'soft',
             cheerio: {},
@@ -37,9 +43,11 @@ export class Report {
             <head>
                 <subject>Your Financial Report</subject>
                 <preview>Your report is ready.</preview>
+                <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
                 <style>
                     body {
                         background: #EEE;
+                        font-family: 'Poppins', sans-serif;
                     }
 
                     container {
@@ -62,16 +70,69 @@ export class Report {
                     column {
                         padding: 0 10px;
                     }
+
+                    .text-muted {
+                        text-transform: uppercase;
+                        opacity: 0.5;
+                    }
                 </style>
             </head>
             <body>
                 <container>
                     <row>
+                        <img width="50px" src="data:image/png;base64, ${base64_encode(process.env.PWD + '/src/assets/img/logo_1.png')}"/>
+                    </row>
+                    <br>
+                    <row>
                         <column>
-                            <h1>Your Financial Report</h1>
-                            <p>Hi ${this.#responded_values.name}</p>
+                            <p>Hi ${this.#name},</p>
+                            <p>Thanks for participating in our survey! Here is your financial summary.</p>
+                            <h1>You are a $/{profile}</h1>
+                            <p>$/{profile_desc}</p>
                         </column>
                     </row>
+                    <row>
+                        <column>
+                            <h5 class="text-muted">What it means for your money</h5>
+                            <p>$/{profile_money_insight}</p>
+                        </column>
+                    </row>
+                    <hr>
+                    <row>
+                        <column>
+                            <h4>DEBT-INCOME RATIO</h4>
+                        </column>
+                    </row>
+
+                    <row>
+                        <column>
+                            <h4>EXPENSES</h4>
+                            <h5 class="text-muted">Breakdown</h5>
+                        </column>
+                    </row>
+                    <row>
+                        <column>Chart</column>
+                        <column>
+                            <row>Savings</row>
+                            <row>Eating Out</row>
+                            <row>Hobbies</row>
+                            <row>Clothings</row>
+                            <row>Transportations</row>
+                        </column>
+                    </row>
+                    <row>
+                        <h5 class="text-muted">Demographic Average</h5>
+                        <p>Among those who responded to our questions, and are living in $/{location}, aged $/{age} and has an income of $/{income_range}, you ranked $/{level} in the following categories</p>
+                    </row>
+                    <row>
+                        $/{ranks}
+                    </row>
+                    <hr>
+                    <h4>THINGS YOU CAN DO AS A $/{profile}</h4>
+                    <p>$/{tips}</p>
+                    <p>Follow us on Instagram and Twitter at @halduit for more financial tips and tricks! Share this questionnaires among your friends and family and find out how they rank against you!</p>
+                    <p>Happy saving!</p>
+                    <p>- The HalDuit Team</p>
                     <hr>
                     <row>
                         <column>
@@ -121,6 +182,21 @@ export class Report {
         })
     }
 
+    generateCharts() {
+        data = {
+            datasets: [{
+
+            }],
+            labels: []
+        }
+
+        var spendingsCharts = new Charts(ctx, {
+            type: 'pie',
+            data: data,
+            options: options
+        })
+    }
+
     sendReport(address) {
         send(address, this.#email_metadata, this.#email_body)
     }
@@ -132,6 +208,7 @@ export class Report {
         this.#scores = this.extractCalculatedScores()
         this.#responded_values = this.extractRespondedValues()
         this.#demographic = this.extractDemographicValues()
+        this.#name = this.#body[4].form_response.hidden.name || 0
     }
 
     extractDemographicValues() {
@@ -164,7 +241,7 @@ export class Report {
     extractRespondedValues() {
         var res = this.#body[4].form_response.hidden
         var arr = {}
-        arr["name"] = res.name || 0
+        //arr["name"] = res.name || 0
         arr["transport"] = res.trt || 0
         arr["eat_out"] = parseInt(res.grt) || 0
         arr["hobbies"] = parseInt(res.ht) || 0
