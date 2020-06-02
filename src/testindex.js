@@ -1,5 +1,7 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import { readFile } from 'fs'
-import { Report, generateReportFrom } from './services/report-generator.js'
+import { Report } from './services/report-generator.js'
 
 //actual request for response (req) is stored as req.body
 var file = './samplereq.json'
@@ -11,14 +13,18 @@ readFile(file, 'utf8', (err, content) => {
     }
     try {
         const response = JSON.parse(content)
-        //generateReportFrom(response)
+
         var report = new Report(response)
+
         report.prepReport()
-        // UGLY IMPLEMENTATION 👇🏼 pending => change to async await // promise based functions
-        setTimeout(() => {
-            report.sendReport('aqlanhadi@gmail.com')
-        }, 10000)
-        
+        .then(() => {
+            //return report.sendReport('aqlanhadi@gmail.com')
+            console.log('📩 Mail sending sequence.')
+        })
+        .then(() => {
+            console.log('🗑  Cleanup')
+        }).catch(console.log)
+
     } catch(err) {
         console.log(err)
     }

@@ -2,11 +2,11 @@ import pkg from 'nodemailer'
 const { createTransport } = pkg
 
 var transporter = createTransport({
-  host: process.env.MAILTRAP_HOST,
-  port: process.env.MAILTRAP_PORT,
+  host: process.env.MAILTRAP_HOST || 'smtp.mailtrap.io',
+  port: process.env.MAILTRAP_PORT || 2525,
   auth: {
-    user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASS
+    user: process.env.MAILTRAP_USER || '46be50762b5c5f',
+    pass: process.env.MAILTRAP_PASS || '2e7d93f73e0aad'
   }
 });
 
@@ -17,9 +17,6 @@ var transporter = createTransport({
  * @param {HTML} body html body of the email
  */
 export function send(mail, metadata, body) {
-  console.log('Sending email to ', mail)
-  console.log('Email Subject: ', metadata.subject )
-  //console.log('Email Body: ', body )
   
   var mailOptions = {
     from: 'HalDuit <hello@halduit.com>',
@@ -29,12 +26,17 @@ export function send(mail, metadata, body) {
     html: `${body}`
   }
 
-  transporter.sendMail(mailOptions, function(error, info) {
-    if(error) {
-      console.log(error)
-    } else {
-      console.log('Email sent => ' + info.response)
-    }
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function(error, info) {
+      console.log('📤 Sending email to ', mail)
+      console.log('\tEmail Subject: ', mailOptions.subject )
+      if(error) {
+        return reject(error)
+      } else {
+        return resolve('✅ Email sent => ' + info.response)
+      }
+    })
   })
+  
 }
 

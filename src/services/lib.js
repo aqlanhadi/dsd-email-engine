@@ -4,7 +4,7 @@ var labels = []
 
 export function base64_encode(file) {
     var bmp = readFileSync(file)
-    return new Buffer(bmp).toString('base64')
+    return new Buffer.from(bmp).toString('base64')
 }
 
 export function extractResponseBody(body) {
