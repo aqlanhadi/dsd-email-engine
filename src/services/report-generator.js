@@ -1,11 +1,14 @@
-import { readFile } from 'fs'
+import { readFile } from 'fs/promises'
 import Charts from 'chart.js'
 import { extractResponses } from './lib.js'
 import { send } from './mail-to.js'
 import { hemlRenderer } from './mail-renderer.js'
 import { drawPieChart } from './chart-renderer.js'
+import profiler from './profiler.js'
+//import profiler from './score-calculator.js'
 
 const DEFINITION_FILE_PATH = "src/models/dictionary.json"
+const PROFILE_DEF = 'src/models/profiles.json'
 const SCORE_DEFINITION = {}
 
 export class Report {
@@ -26,21 +29,32 @@ export class Report {
     }
 
     async prepReport() {
-        return await this.hemlEngine()
+        return await profiler(this.#scores,this.#responded_values, this.#demographic.income, this.#demographic.loan_service)
+        // .then(async (calculated) => {
+        //     console.log("\tResponse profiled: " + calculated.profile)
+        //     return await this.hemlEngine(calculated)
+        // })
+        //return await this.hemlEngine(null)
     }
 
-    async hemlEngine() {
-        var data = {}
-        return await drawPieChart().then((pie) => {
-            console.log(pie)
-            data = {
-                name: this.#name,
-                scores: this.#scores,
-                values: this.#responded_values,
-                demographic: this.#demographic,
-                pie: pie
-            }
+    async hemlEngine(profileData) {
+        var data = {
+            name: this.#name,
+            profile_meta: null,
+            scores: this.#scores,
+            values: this.#responded_values,
+            demographic: this.#demographic,
+            pie: null
+        }
+
+        return await readFile(PROFILE_DEF, {encoding: 'utf-8'}).then((definition) => {
+            var parsed = JSON.parse(definition)
+            var profile = parsed[profileData.profile - 1]
+            data.profile_meta = profile
+        }).then(async () => {
+            data.pie = await drawPieChart(this.#responded_values)
         }).then(async() => {
+            data = Object.assign({}, data, profileData)
             var res = await hemlRenderer(data)
             if(res == undefined) {
                 console.log('Email rendering failed.')
@@ -52,8 +66,6 @@ export class Report {
         }).catch((error) => {
             console.log(error)
         })
-        
-        
     }
 
     //async
@@ -119,7 +131,14 @@ export class Report {
         var res = this.#body[4].form_response.hidden
         var arr = {}
         //arr["name"] = res.name || 0
-        arr["transport"] = res.trt || 0
+        //arr["transport"] = res.trt || 0
+        let calcTransport = (val) => {
+            if(val === "less than RM10") return 10
+            else if(val === "RM 10-50") return 50
+            else if(val === "more than RM50") return 100
+            else return 150
+        }
+        arr["transport"] = calcTransport(res.trt) || 0
         arr["eat_out"] = parseInt(res.grt) || 0
         arr["hobbies"] = parseInt(res.ht) || 0
         arr["clothes"] = parseInt(res.lt) || 0
@@ -132,23 +151,4 @@ export class Report {
     get definition() { return this.#definition }
     get demographic() { return this.#demographic }
     get responsedVals() { return this.#responded_values }
-
-
-    readDefinitionFile() {
-        var json = {}
-        readFile(DEFINITION_FILE_PATH, 'utf8', (err, content) => {
-            if (err) {
-                console.log('File read failed: ', err)
-                return
-            }
-            try {
-                //console.log(content)
-                console.log("definition loaded" + content)
-                return typeof(content)
-            } catch(err) {
-                console.log(err)
-                return
-            }
-        })
-    }
 }

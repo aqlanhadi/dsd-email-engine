@@ -11,7 +11,7 @@ var transporter = createTransport({
 });
 
 /**
- * 
+ * send() will return a Promise.resolve() if successful and Promise.reject() otherwise.
  * @param {String} mail email adress of which the email will be sent to.
  * @param {JSON} metadata email metadata
  * @param {HTML} body html body of the email

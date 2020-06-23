@@ -17,8 +17,11 @@ readFile(file, 'utf8', (err, content) => {
         var report = new Report(response)
 
         report.prepReport()
+        .then(async (profile) => {
+            return await report.hemlEngine(profile)
+        })
         .then(() => {
-            //return report.sendReport('aqlanhadi@gmail.com')
+            return report.sendReport('aqlanhadi@gmail.com')
             console.log('📩 Mail sending sequence.')
         })
         .then(() => {

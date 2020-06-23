@@ -2,6 +2,12 @@ import { readFileSync } from 'fs'
 
 var labels = []
 
+export async function spendingBreakdowns(values) {
+    Object.keys(values).forEach((item, i) => {
+        
+    })
+}
+
 export function base64_encode(file) {
     var bmp = readFileSync(file)
     return new Buffer.from(bmp).toString('base64')
