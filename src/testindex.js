@@ -19,12 +19,10 @@ readFile(file, 'utf8', (err, content) => {
         report.prepReport()
         .then(async (profile) => {
             return await report.hemlEngine(profile)
-        })
-        .then(() => {
+        }).then(() => {
             return report.sendReport('aqlanhadi@gmail.com')
             console.log('📩 Mail sending sequence.')
-        })
-        .then(() => {
+        }).then(() => {
             console.log('🗑  Cleanup')
         }).catch(console.log)
 

@@ -214,7 +214,8 @@ export async function hemlRenderer(data) {
                     <img width="50px" src="data:image/png;base64, ${base64_encode(process.env.PWD + '/src/assets/img/logo_1.png')}"/> 
                 </column>
             </row>
-
+            <br>
+            <br>
             <p>Hi ${data.name},</p>
             <p>Thanks for participating in our survey! Here is your financial summary.</p>
             <h2>You are a ${data.profile_meta.name}</h2>
@@ -280,10 +281,10 @@ export async function hemlRenderer(data) {
                 </column>
                 <column large="2" small="2">
                     <p>10%</p>
-                    <p>10%</p>
-                    <p>10%</p>
-                    <p>10%</p>
-                    <p>10%</p>
+                    <p>${data.breakdown.eat_out} %</p>
+                    <p>${data.breakdown.hobbies} %</p>
+                    <p>${data.breakdown.clothes} %</p>
+                    <p>${data.breakdown.transport} %</p>
                 </column>
             </row>
             <!---

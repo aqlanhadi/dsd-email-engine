@@ -1,5 +1,4 @@
 import { readFile } from 'fs/promises'
-import { resolve } from 'path'
 
 export default async function profiler(scores, values, income, loan) {
     

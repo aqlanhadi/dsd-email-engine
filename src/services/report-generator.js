@@ -5,7 +5,6 @@ import { send } from './mail-to.js'
 import { hemlRenderer } from './mail-renderer.js'
 import { drawPieChart } from './chart-renderer.js'
 import profiler from './profiler.js'
-//import profiler from './score-calculator.js'
 
 const DEFINITION_FILE_PATH = "src/models/dictionary.json"
 const PROFILE_DEF = 'src/models/profiles.json'
@@ -29,17 +28,13 @@ export class Report {
     }
 
     async prepReport() {
-        return await profiler(this.#scores,this.#responded_values, this.#demographic.income, this.#demographic.loan_service)
-        // .then(async (calculated) => {
-        //     console.log("\tResponse profiled: " + calculated.profile)
-        //     return await this.hemlEngine(calculated)
-        // })
-        //return await this.hemlEngine(null)
+        return await profiler(this.#scores, this.#demographic.income, this.#demographic.loan_service)
     }
 
     async hemlEngine(profileData) {
         var data = {
             name: this.#name,
+            breakdown: null,
             profile_meta: null,
             scores: this.#scores,
             values: this.#responded_values,
@@ -53,7 +48,9 @@ export class Report {
             data.profile_meta = profile
         }).then(async () => {
             data.pie = await drawPieChart(this.#responded_values)
-        }).then(async() => {
+        }).then(async () => {
+            data.breakdown = await this.expenditureBreakdowns()
+        }).then(async () => {
             data = Object.assign({}, data, profileData)
             var res = await hemlRenderer(data)
             if(res == undefined) {
@@ -66,6 +63,26 @@ export class Report {
         }).catch((error) => {
             console.log(error)
         })
+    }
+
+    async expenditureBreakdowns() {
+        return new Promise((res, rej) => {
+            try {
+                var values = this.#responded_values
+                var budget = 2000
+                var budget_left = budget
+                var breakdown = {}
+                Object.keys(values).forEach((item, i) => {
+                    let pc = values[item]/budget
+                    budget_left -= values[item]
+                    breakdown[item] = pc * 100
+                })
+                res(breakdown)
+            } catch(e) {
+                rej(e)
+            }
+        })
+        
     }
 
     //async

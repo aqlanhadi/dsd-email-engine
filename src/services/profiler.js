@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises'
 
 const SCORE_DEF_FILE = 'src/models/score-definition.json'
 
-export default async function profiler(scores, values, income, loan) {
+export default async function profiler(scores, income, loan) {
     var response = {
         profile: 0,
         incomeRatio: 0,
@@ -18,7 +18,7 @@ export default async function profiler(scores, values, income, loan) {
         response.incomeRatio = res.incomeRatio
         response.debtRatio = res.debtRatio
         response.dirHealth = res.dirHealth
-        console.log("Profile Ready")
+        console.log("👤 Response profiled.")
         return response
     })
 
