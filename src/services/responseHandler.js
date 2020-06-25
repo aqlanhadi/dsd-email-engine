@@ -3,7 +3,7 @@ import { existsSync } from 'fs'
 
 export default async function handle(response) {
     //var record = 'src/models/' + String(response.form_response.hidden.name) || String(response.form_response.answers[0].text) + '.json'
-    var record = String(response.form_response.hidden) === undefined ? 
+    var record = response.form_response.hidden === undefined ? 
     'src/models/' + String(response.form_response.answers[0].text) + '.json' :
     'src/models/' + String(response.form_response.hidden.name) + '.json'
     
