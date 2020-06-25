@@ -1,5 +1,8 @@
 ## dsd-email-engine
-Maybank's Digital Skills Development email processing application.
+
+## Change Syahbildlls
+
+##change aqlan
 
 * TODO
     * ✅ Typeform Webhooks to /hook
@@ -64,4 +67,3 @@ Maybank's Digital Skills Development email processing application.
         * [] Data channeled to centralized DB for population analysis
             * [] GraphQL / NoSQL db
                 * [] Schematic definitions
-                * [] Queries for averages
