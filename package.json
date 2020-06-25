@@ -7,7 +7,8 @@
   "scripts": {
     "test": "mocha --reporter spec",
     "start": "node src/index.js",
-    "intest": "node src/testindex.js"
+    "intest": "node src/testindex.js",
+    "server": "node src/server.js"
   },
   "keywords": [],
   "author": "",
