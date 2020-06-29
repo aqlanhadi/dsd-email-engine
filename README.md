@@ -1,6 +1,7 @@
 # dsd-email-engine
 Maybank's Digital Skills Development email processing application.
 
+<<<<<<< HEAD
 This project will take responses on Digital Skills Development's (survey)[https://malayanbanking.typeform.com/to/n4YTpi] on studying the public's financial habits and processes a report out of the submission results.
 
 ## Execution Flow
@@ -13,3 +14,6 @@ This project will take responses on Digital Skills Development's (survey)[https:
 6. One will generate a HTML email layout, using (HEML)[https://www.heml.io]
 7. Once all promises have been fulfilled, the app sends an email to the user-submitted email address using (Nodemailer)[https://nodemailer.com/about/]. (For development reasons, current mails are trapped with (Mailtrap)[https://mailtrap.io/]).
 8. The app will also aggregate the response with all recorded records.
+=======
+## Change 1
+>>>>>>> 539acc04491003e3b791beaacf089fdd0b050db1
