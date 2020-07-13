@@ -1,14 +1,28 @@
 import pkg from 'nodemailer'
 const { createTransport } = pkg
 
-var transporter = createTransport({
-  host: process.env.MAILTRAP_HOST || 'smtp.mailtrap.io',
-  port: process.env.MAILTRAP_PORT || 2525,
+// Reroute mail to mailtrap.io
+
+var transporter = {}
+
+process.env.NODE_ENV === "development" ?
+transporter = createTransport({
+  host: process.env.MAILTRAP_HOST,
+  port: process.env.MAILTRAP_PORT,
   auth: {
-    user: process.env.MAILTRAP_USER || '46be50762b5c5f',
-    pass: process.env.MAILTRAP_PASS || '2e7d93f73e0aad'
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS
   }
-});
+}) : 
+transporter = createTransport({
+  host: process.env.HD_EMAIL_HOST,
+  port: process.env.HD_EMAIL_PORT,
+  auth: {
+    user: process.env.HD_EMAIL_USER,
+    pass: process.env.HD_EMAIL_PASS
+  }
+})
+
 
 /**
  * send() will return a Promise.resolve() if successful and Promise.reject() otherwise.
@@ -19,7 +33,7 @@ var transporter = createTransport({
 export function send(mail, metadata, body) {
   
   var mailOptions = {
-    from: 'HalDuit <hello@halduit.com>',
+    from: 'HalDuit <donotreply@halduit.com>',
     to: mail,
     subject: metadata.subject,
     text: 'View online version',

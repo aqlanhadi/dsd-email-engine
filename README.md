@@ -27,8 +27,8 @@
             * [] calculated scores (see copywriting)
         * ✅ Build UI
             * ✅ Base skeleton
-            * 🔨 [] Charts
-                * [] ⚠️ ISSUE -> imgs cannot be sent in HTML email
+            * 🔨 ✅ Charts
+                * ✅ ⚠️ ISSUE -> imgs cannot be sent in HTML email
                     Possible Routes:
                     - Base64 Encodings for images
                     - As attachments
@@ -36,19 +36,19 @@
                         - Costly
                         - Inefficient for every response, uploads images to cloud
                             - Takes space
-                * [] Charts as Image on NodeJS
-                    * [] VEGA
+                * ✅ Charts as Image on NodeJS
+                    * ✅ VEGA
                         - Sort of like D3
-                        * [] Transform response data to VEGA data schematic
-                        * [] Generate PNG from VEGA
-                        * [] Convert PNG to Base64 Image
-                        * [] Bind images to email
-                        * [] PNG Cleanup 
+                        * ✅ Transform response data to VEGA data schematic
+                        * ✅ Generate PNG from VEGA
+                        * ✅ Convert PNG to Base64 Image
+                        * ✅ Bind images to email
+                        * ✅ PNG Cleanup 
                     - node-chart-js
                         - ! requires OS dependencies. Issue when deploy ?
-        * [] Move HEML to a diff script for readibility
-        * [] Accessibility for all email clients: Gmail, Apple Mail Client
-        * [] Beautify
+        * ✅ Move HEML to a diff script for readibility
+        * ✅ Accessibility for all email clients: Gmail, Apple Mail Client
+        * ✅ Beautify
     * [] Demographic Data Pool
     * [] Copywriting
         * [] Financial Profile

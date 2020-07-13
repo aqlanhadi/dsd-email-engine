@@ -1,6 +1,11 @@
+/**
+ * @author Aqlan Nor Azman
+ * @description Report generation utility. Includes data extraction, HTML email preparation and sending mail sequence.
+ */
+
 import { readFile } from 'fs/promises'
 import Charts from 'chart.js'
-import { extractResponses } from './lib.js'
+import { extractResponses, expenditureBreakdowns } from './lib.js'
 import { send } from './mail-to.js'
 import { hemlRenderer } from './mail-renderer.js'
 import { drawPieChart } from './chart-renderer.js'
@@ -22,37 +27,63 @@ export class Report {
     #email_body = ''
     #email_metadata = ''
 
+    /**
+     * @param {FormResponse} body accepts the parsed JSON data from temp response file.
+     * @returns a promise when extraction is complete. Stores extracted values in class's hidden variables.
+     */
     constructor(body) {
         this.#body = body
         this.extractValues()
     }
 
+    /**
+     * @description profiles a response.
+     * @returns a promise when profiler is complete.
+     * Refer *models/profiles.json* for profile definition and *profiler.js* for profile decider.
+     */
     async prepReport() {
         return await profiler(this.#scores, this.#demographic.income, this.#demographic.loan_service)
     }
 
+    /**
+     * 
+     * @param {Array} profileData an array whic includes profile index and Debt-Income Ratio data
+     * @description Compiles required data for HTML-Email generation.
+     */
     async hemlEngine(profileData) {
-        var data = {
-            name: this.#name,
-            breakdown: null,
-            profile_meta: null,
-            scores: this.#scores,
-            values: this.#responded_values,
-            demographic: this.#demographic,
-            pie: null
+        var data = {                            // DATA PASSED FOR HTML RENDERING:
+            name: this.#name,                   // Name of respondent
+            email: this.#demographic.email,     // Email Address
+            breakdown: null,                    // Expenditure breakdown, calculated
+            profile_meta: null,                 // Profile definition, pulled from models/profiles.json [DEBUG] tips accessible on profile_meta.tips[0 || 1]
+            scores: this.#scores,               // Scores for each category
+            values: this.#responded_values,     // [DEBUG] All responded values
+            demographic: this.#demographic,     // Demographic data
+            pie: null                           // Pie chart image in Base64 encoding
+            // Appended later
+            //      profile: 0,
+            //      incomeRatio: 0,
+            //      debtRatio: 0,
+            //      dirHealth: ''
         }
 
+        // Read profile definition file, and extracts the profile based on the received profiler index.
         return await readFile(PROFILE_DEF, {encoding: 'utf-8'}).then((definition) => {
             var parsed = JSON.parse(definition)
             var profile = parsed[profileData.profile - 1]
             data.profile_meta = profile
-        }).then(async () => {
+        }).then(async () => { 
+            // Attempt to draw pie chart. [IMAGES ARE WIDELY UNSUPPORTED BY EMAIL CLIENTS]
             data.pie = await drawPieChart(this.#responded_values)
-        }).then(async () => {
-            data.breakdown = await this.expenditureBreakdowns()
-        }).then(async () => {
-            data = Object.assign({}, data, profileData)
-            var res = await hemlRenderer(data)
+        }).then(async () => { 
+            // Attempt to break expenditure down.
+            data.breakdown = await expenditureBreakdowns(this.#responded_values)
+        }).then(async () => { 
+            // Render email
+            data = Object.assign({}, data, profileData) // append profileData to data Array
+            var res = await hemlRenderer(data)          // pass all data to *services/mail-renderer.js*,
+
+            // if successful, res will be instated with an email object, ready to be sent.
             if(res == undefined) {
                 console.log('Email rendering failed.')
                 return 0
@@ -65,45 +96,14 @@ export class Report {
         })
     }
 
-    async expenditureBreakdowns() {
-        return new Promise((res, rej) => {
-            try {
-                var values = this.#responded_values
-                var budget = 2000
-                var budget_left = budget
-                var breakdown = {}
-                Object.keys(values).forEach((item, i) => {
-                    let pc = values[item]/budget
-                    budget_left -= values[item]
-                    breakdown[item] = pc * 100
-                })
-                res(breakdown)
-            } catch(e) {
-                rej(e)
-            }
-        })
-        
-    }
-
-    //async
+    /**
+     * 
+     * @param {String} address the email address to send the email to.
+     * @description Sends the rendered HTML email.
+     */
     async sendReport(address) {
         await send(address, this.#email_metadata, this.#email_body).then((res) => {
             console.log(res)
-        })
-    }
-    
-    generateCharts() {
-        data = {
-            datasets: [{
-
-            }],
-            labels: []
-        }
-
-        var spendingsCharts = new Charts(ctx, {
-            type: 'pie',
-            data: data,
-            options: options
         })
     }
 
@@ -127,10 +127,18 @@ export class Report {
         arr["savings"] = res[0]
         arr["afford_unexpected_expense"] = res[1]
         arr["loan"] = res[6]
-        arr["loan_type"] = res[7] || 0
-        arr["loan_service"] = res[8] || 0
-        arr["state"] = res[9] || 0
-        arr["city"] = res[10] || 0
+        if(res[6] == "Yes") {
+            arr["loan_type"] = res[7] || 0
+            arr["loan_service"] = res[8] || 0
+            arr["state"] = res[9] || 0
+            arr["city"] = res[10] || 0
+            arr["email"] = res[11] || "rejected@halduit.com"
+        } else {
+            arr["state"] = res[7] || 0
+            arr["city"] = res[8] || 0
+            arr["email"] = res[9] || "rejected@halduit.com"
+        }
+        
         return arr
     }
     
@@ -162,6 +170,8 @@ export class Report {
         return arr
     }
     
+    // Getters
+    get emailAddress() { return this.#demographic.email }
     get emailBody() { return this.#email_body }
     get scores() { return this.#scores }
     get body() { return this.#body[4].form_response.answers }

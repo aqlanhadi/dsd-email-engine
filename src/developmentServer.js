@@ -1,10 +1,17 @@
+// Load credentials
+process.env.NODE_ENV = 'development'
+
 import dotenv from 'dotenv'
-dotenv.config()
+const keys = dotenv.config()
+if(keys.error) { 
+    throw keys.error
+}
+
 import { readFile } from 'fs'
-import { Report } from './services/report-generator.js'
+import { Report } from './services/reportGenerator.js'
 
 //actual request for response (req) is stored as req.body
-var file = './samplereq.json'
+var file = 'src/temp/testResponse.json'
 
 readFile(file, 'utf8', (err, content) => {
     if(err) {
@@ -20,7 +27,7 @@ readFile(file, 'utf8', (err, content) => {
         .then(async (profile) => {
             return await report.hemlEngine(profile)
         }).then(() => {
-            return report.sendReport('aqlanhadi@gmail.com')
+            return report.sendReport(report.emailAddress)
             console.log('📩 Mail sending sequence.')
         }).then(() => {
             console.log('🗑  Cleanup')

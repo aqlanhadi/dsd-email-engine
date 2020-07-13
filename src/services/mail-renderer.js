@@ -309,7 +309,7 @@ export async function hemlRenderer(data) {
                   </div>
                 </column>
             </row>
-            -->
+            
             <br>
             <hr>
             <h5 class="text-muted"><u>Things you can do as a ${data.profile_meta.name}</u></h4>
@@ -356,6 +356,7 @@ export async function hemlRenderer(data) {
                     </ul>
                 </column>
             </row>
+            -->
         </container>
     </body>
 </heml>
