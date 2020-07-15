@@ -1,11 +1,14 @@
-import pkg from 'nodemailer'
-const { createTransport } = pkg
+import dotenv from 'dotenv'
+var keys = dotenv.config()
+if(keys.error) { throw keys.error }
 
-// Reroute mail to mailtrap.io
+import pkg from 'nodemailer'
+
+const { createTransport } = pkg
 
 var transporter = {}
 
-process.env.NODE_ENV === "development" ?
+// process.env.NODE_ENV === "development" ?
 transporter = createTransport({
   host: process.env.MAILTRAP_HOST,
   port: process.env.MAILTRAP_PORT,
@@ -13,15 +16,15 @@ transporter = createTransport({
     user: process.env.MAILTRAP_USER,
     pass: process.env.MAILTRAP_PASS
   }
-}) : 
-transporter = createTransport({
-  host: process.env.HD_EMAIL_HOST,
-  port: process.env.HD_EMAIL_PORT,
-  auth: {
-    user: process.env.HD_EMAIL_USER,
-    pass: process.env.HD_EMAIL_PASS
-  }
-})
+}) 
+// : transporter = createTransport({
+//   host: process.env.HD_EMAIL_HOST,
+//   port: process.env.HD_EMAIL_PORT,
+//   auth: {
+//     user: process.env.HD_EMAIL_USER,
+//     pass: process.env.HD_EMAIL_PASS
+//   }
+// })
 
 
 /**
@@ -33,7 +36,7 @@ transporter = createTransport({
 export function send(mail, metadata, body) {
   
   var mailOptions = {
-    from: 'HalDuit <donotreply@halduit.com>',
+    from: `HalDuit <${process.env.HD_EMAIL_USER}>`,
     to: mail,
     subject: metadata.subject,
     text: 'View online version',
