@@ -1,0 +1,86 @@
+[
+    {
+        "item": "groceries",
+        "weightage": 0,
+        "scores": [
+            {
+                "level": 1,
+                "min": 3,
+                "max": 5
+            },
+            {
+                "level": 2,
+                "min": 6,
+                "max": 9
+            },
+            {
+                "level": 3,
+                "min": 10,
+                "max": 12
+            }
+        ]
+    },
+    {
+        "item": "transport",
+        "weightage": 0,
+        "scores": [
+            {
+                "level": 1,
+                "min": 2,
+                "max": 5
+            },
+            {
+                "level": 2,
+                "min": 6,
+                "max": 10
+            },
+            {
+                "level": 3,
+                "min": 11,
+                "max": 14
+            }
+        ]
+    },
+    {
+        "item": "eat_out",
+        "weightage": 0,
+        "scores": [
+            {
+                "level": 1,
+                "min": 1,
+                "max": 3
+            },
+            {
+                "level": 2,
+                "min": 4,
+                "max": 6
+            },
+            {
+                "level": 3,
+                "min": 7,
+                "max": 9
+            }
+        ]
+    },
+    {
+        "item": "hobbies",
+        "weightage": 0,
+        "scores": [
+            {
+                "level": 1,
+                "min": 2,
+                "max": 4
+            },
+            {
+                "level": 2,
+                "min": 5,
+                "max": 7
+            },
+            {
+                "level": 3,
+                "min": 8,
+                "max": 16
+            }
+        ]
+    }
+]

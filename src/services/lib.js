@@ -1,4 +1,52 @@
+/**
+ * @author Aqlan Nor Azman
+ * @description Utility file for the application
+ */
+
+import { readFileSync } from 'fs'
+
 var labels = []
+
+/**
+ * 
+ * @param {Array} responses Array of responded values
+ * @definition
+ *  responses
+ *      [1]: {Int} transport
+ *      [2]: {Int} eating_out
+ *      [3]: {Int} hobbies
+ *      [4]: {Int} lifestyle
+ */
+export async function expenditureBreakdowns(responses) {
+    return new Promise((res, rej) => {
+        try {
+            var values = responses
+            var budget = 2000           // Change to their income
+            var budget_left = budget
+            var breakdown = {}
+            Object.keys(values).forEach((item, i) => {
+                let pc = values[item]/budget
+                budget_left -= values[item]
+                breakdown[item] = pc * 100
+            })
+            res(breakdown)
+        } catch(e) {
+            rej(e)
+        }
+    })
+    
+}
+
+export async function spendingBreakdowns(values) {
+    Object.keys(values).forEach((item, i) => {
+        
+    })
+}
+
+export function base64_encode(file) {
+    var bmp = readFileSync(file)
+    return new Buffer.from(bmp).toString('base64')
+}
 
 export function extractResponseBody(body) {
     var responses = []
@@ -23,6 +71,7 @@ export function extractResponses(answers) {
             else if (answer.type == "boolean") array.push(answer.boolean)
             else if (answer.type == "choices") array.push(answer.choices.labels)
             else if (answer.type == "text") array.push(answer.text)
+            else if (answer.type == "email") array.push(answer.email)
             else console.log("answer " + answer.type + " does not have a parsing sequence defined.")
         } catch(err) {
             console.log("extractResponses: ", err)

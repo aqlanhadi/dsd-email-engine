@@ -1,36 +1,59 @@
+import dotenv from 'dotenv'
+var keys = dotenv.config()
+if(keys.error) { throw keys.error }
+
 import pkg from 'nodemailer'
+
 const { createTransport } = pkg
 
-const MAIL_FROM = 'duitforall@gmail.com'
-// const MAIL_FROM_PASS = 'futureready2020'
+var transporter = {}
 
-var transporter = createTransport({
-  host: "smtp.mailtrap.io",
-  port: 2525,
+// process.env.NODE_ENV === "development" ?
+transporter = createTransport({
+  host: process.env.MAILTRAP_HOST,
+  port: process.env.MAILTRAP_PORT,
   auth: {
-    user: "46be50762b5c5f",
-    pass: "2e7d93f73e0aad"
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS
   }
-});
+}) 
+// : transporter = createTransport({
+//   host: process.env.HD_EMAIL_HOST,
+//   port: process.env.HD_EMAIL_PORT,
+//   auth: {
+//     user: process.env.HD_EMAIL_USER,
+//     pass: process.env.HD_EMAIL_PASS
+//   }
+// })
 
+
+/**
+ * send() will return a Promise.resolve() if successful and Promise.reject() otherwise.
+ * @param {String} mail email adress of which the email will be sent to.
+ * @param {JSON} metadata email metadata
+ * @param {HTML} body html body of the email
+ */
 export function send(mail, metadata, body) {
-  console.log('Sending email to ', mail)
-  console.log('Email Subject: ', metadata.subject )
-  //console.log('Email Body: ', body )
-
+  
   var mailOptions = {
-    from: 'HalDuit <hello@halduit.com>',
+    from: `HalDuit <${process.env.HD_EMAIL_USER}>`,
     to: mail,
     subject: metadata.subject,
+    text: 'View online version',
     html: `${body}`
   }
 
-  transporter.sendMail(mailOptions, function(error, info) {
-    if(error) {
-      console.log(error)
-    } else {
-      console.log('Email sent => ' + info.response)
-    }
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function(error, info) {
+      console.log('📤 Sending email to ', mail)
+      console.log('\tEmail Subject: ', mailOptions.subject )
+      if(error) {
+        return reject(error)
+      } else {
+        return resolve('✅ Email sent => ' + info.response)
+      }
+    })
   })
+  
 }
 
