@@ -33,7 +33,7 @@ export default async function handle(response) {
                      * Report Generation In Point
                      */
                     //DELETE
-                    writeFile(record, JSON.stringify(parsed))
+                    //writeFile(record, JSON.stringify(parsed))
                     console.log("Response completed. Generating report.")
                     
                     // Sends the data to *reportGenerator.js*
@@ -47,7 +47,7 @@ export default async function handle(response) {
                         console.log('📩 Mail sending sequence.')
                     }).then(() => {
                         console.log('🗑  Cleanup')
-                        //unlinkSync(record) //DELETE FILE
+                        unlinkSync(record) //DELETE FILE
                     }).catch(console.log)
 
                 } else {
