@@ -24,6 +24,8 @@
     "mjml": "^4.6.3",
     "mocha": "^7.2.0",
     "nodemailer": "^6.4.10",
+    "serverless": "^1.74.1",
+    "serverless-http": "^2.5.0",
     "vega": "^5.13.0"
   }
 }

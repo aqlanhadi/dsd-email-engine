@@ -11,6 +11,7 @@ if(keys.error) {
     throw keys.error
 }
 
+import serverless from 'serverless-http'
 import express from 'express'
 import bodyParser from 'body-parser'
 import handle from './services/responseHandler.js'
@@ -31,3 +32,5 @@ server.post('/hook', (request, response) => {
 server.listen(PORT, () => {
     console.log(`🚀 Server listening on port ${PORT}`)
 })
+
+export default serverless(server)

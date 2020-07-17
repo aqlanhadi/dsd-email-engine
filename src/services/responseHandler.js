@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { existsSync, unlinkSync } from 'fs'
 import { Report } from './reportGenerator.js'
 
-const TEMP_DIR = 'src/temp/'
+const TEMP_DIR = 'src/tmp/'
 
 export default async function handle(response) {
 
